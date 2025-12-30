@@ -47,12 +47,26 @@ class Tree {
 			);
 		}
 	}
+
+	insert(rootNode, value) {
+		if (rootNode === null) return new Node(value);
+
+		if (value < rootNode.data)
+			rootNode.left = this.insert(rootNode.left, value);
+		else rootNode.right = this.insert(rootNode.right, value);
+
+		return rootNode;
+	}
+	// deleteItem(value)
+	// find(value)
 }
 
-balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 13, 5, 9]);
+balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 13, 5, 9, 7, 8, 10]);
 balancedBST.root = balancedBST.buildTree(
 	balancedBST.arr,
 	0,
 	balancedBST.arr.length - 1
 );
+balancedBST.prettyPrint(balancedBST.root);
+balancedBST.root = balancedBST.insert(balancedBST.root, 2.5);
 balancedBST.prettyPrint(balancedBST.root);
