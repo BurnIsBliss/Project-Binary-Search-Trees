@@ -12,10 +12,47 @@ class Tree {
 		this.root = null;
 	}
 
-	buildTree() {
-		console.log(this.arr);
+	// The below function build a Balanced BST from the array, the tree is build recursively
+	buildTree(treeArr, start, end) {
+		// console.log(treeArr);
+		if (start > end) return null;
+
+		let mid = start + Math.floor((end - start) / 2);
+		let rootNode = new Node(treeArr[mid]);
+
+		rootNode.left = this.buildTree(treeArr, start, mid - 1);
+		rootNode.right = this.buildTree(treeArr, mid + 1, end);
+
+		return rootNode;
+	}
+
+	// The below function/code was taken from the BST project page on https://www.theodinproject.com
+	prettyPrint(node, prefix = "", isLeft = true) {
+		if (node === null) {
+			return;
+		}
+		if (node.right !== null) {
+			this.prettyPrint(
+				node.right,
+				`${prefix}${isLeft ? "│   " : "    "}`,
+				false
+			);
+		}
+		console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+		if (node.left !== null) {
+			this.prettyPrint(
+				node.left,
+				`${prefix}${isLeft ? "    " : "│   "}`,
+				true
+			);
+		}
 	}
 }
 
-treeTest = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 13, 5]);
-treeTest.buildTree();
+balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 13, 5, 9]);
+balancedBST.root = balancedBST.buildTree(
+	balancedBST.arr,
+	0,
+	balancedBST.arr.length - 1
+);
+balancedBST.prettyPrint(balancedBST.root);
