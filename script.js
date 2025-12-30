@@ -9,7 +9,7 @@ class Node {
 class Tree {
 	constructor(arr) {
 		this.arr = Array.from(new Set(arr)).sort((a, b) => a - b); // Takes the array and converts it into a Set then converts it back to an Array and sorts it in ascending order
-		this.root = null;
+		this.root = this.buildTree(this.arr, 0, this.arr.length - 1);
 	}
 
 	// The below function build a Balanced BST from the array, the tree is build recursively
@@ -48,12 +48,12 @@ class Tree {
 		}
 	}
 
-	insert(rootNode, value) {
+	insert(value, rootNode = this.root) {
 		if (rootNode === null) return new Node(value);
 
 		if (value < rootNode.data)
-			rootNode.left = this.insert(rootNode.left, value);
-		else rootNode.right = this.insert(rootNode.right, value);
+			rootNode.left = this.insert(value, rootNode.left);
+		else rootNode.right = this.insert(value, rootNode.right);
 
 		return rootNode;
 	}
@@ -61,12 +61,10 @@ class Tree {
 	// find(value)
 }
 
-balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 13, 5, 9, 7, 8, 10]);
-balancedBST.root = balancedBST.buildTree(
-	balancedBST.arr,
-	0,
-	balancedBST.arr.length - 1
-);
-balancedBST.prettyPrint(balancedBST.root);
-balancedBST.root = balancedBST.insert(balancedBST.root, 2.5);
+const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 13, 5, 9, 7, 8, 10]);
+// balancedBST.prettyPrint(balancedBST.root);
+balancedBST.insert(2.5);
+// balancedBST.insert(2.2);
+// balancedBST.insert(2.3);
+// balancedBST.insert(2.7);
 balancedBST.prettyPrint(balancedBST.root);
