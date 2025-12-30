@@ -48,17 +48,35 @@ class Tree {
 		}
 	}
 
-	insert(value, rootNode = this.root) {
+	insert(value, flag = 0, rootNode = this.root) {
+		if (flag == 0) {
+			if (this.find(value)) {
+				console.log(
+					`The number ${value}, is already present in the tree.`
+				);
+				return;
+			}
+		}
 		if (rootNode === null) return new Node(value);
 
 		if (value < rootNode.data)
-			rootNode.left = this.insert(value, rootNode.left);
-		else rootNode.right = this.insert(value, rootNode.right);
+			rootNode.left = this.insert(value, 1, rootNode.left);
+		else rootNode.right = this.insert(value, 1, rootNode.right);
 
 		return rootNode;
 	}
-	// deleteItem(value)
-	// find(value)
+
+	// deleteItem(value) {}
+
+	find(value, rootNode = this.root) {
+		let returnValue;
+		if (rootNode === null) return 0;
+		else if (value == rootNode.data) return rootNode;
+		else if (value < rootNode.data)
+			returnValue = this.find(value, rootNode.left);
+		else returnValue = this.find(value, rootNode.right);
+		return returnValue;
+	}
 }
 
 const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 13, 5, 9, 7, 8, 10]);
@@ -67,4 +85,9 @@ balancedBST.insert(2.5);
 // balancedBST.insert(2.2);
 // balancedBST.insert(2.3);
 // balancedBST.insert(2.7);
+balancedBST.insert(2.5);
+balancedBST.insert(2.5);
+balancedBST.insert(2.3);
+balancedBST.insert(7);
+balancedBST.insert(11.5);
 balancedBST.prettyPrint(balancedBST.root);
