@@ -48,11 +48,12 @@ class Tree {
 		}
 	}
 
+	// This function adds the provided value to the tree
 	insert(value, flag = 0, rootNode = this.root) {
 		if (flag == 0) {
 			if (this.find(value)) {
 				console.log(
-					`The number ${value}, is already present in the tree.`
+					`The number ${value}, is already present in the tree, unable to perform the INSERT action!`
 				);
 				return;
 			}
@@ -66,8 +67,41 @@ class Tree {
 		return rootNode;
 	}
 
-	// deleteItem(value) {}
+	// Function to delete items from the tree
+	deleteItem(value, flag = 0, rootNode = this.root) {
+		// getSuccessor helps find the inorder successor for the node that we are removing, if both it's left and right nodes are occupied
+		function getSuccessor(curr) {
+			curr = curr.right;
+			while (curr.left !== null) curr = curr.left;
+			return curr;
+		}
+		// The below check is for identifying if the value is present in the tree
+		if (flag == 0) {
+			if (!this.find(value)) {
+				console.log(
+					`The number ${value}, is not present in the tree. Unable to perform the DELETE action!`
+				);
+				return;
+			}
+		}
+		if (rootNode === null) return rootNode;
 
+		if (rootNode.data > value)
+			rootNode.left = this.deleteItem(value, 1, rootNode.left);
+		else if (rootNode.data < value)
+			rootNode.right = this.deleteItem(value, 1, rootNode.right);
+		else {
+			if (rootNode.left === null) return rootNode.right;
+			if (rootNode.right === null) return rootNode.left;
+
+			const succ = getSuccessor(rootNode);
+			rootNode.data = succ.data;
+			rootNode.right = this.deleteItem(succ.data, 1, rootNode.right);
+		}
+		return rootNode;
+	}
+
+	// This function checks for the provided value within the tree
 	find(value, rootNode = this.root) {
 		let returnValue;
 		if (rootNode === null) return 0;
@@ -79,15 +113,20 @@ class Tree {
 	}
 }
 
-const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 13, 5, 9, 7, 8, 10]);
-// balancedBST.prettyPrint(balancedBST.root);
-balancedBST.insert(2.5);
+const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12]);
+balancedBST.prettyPrint(balancedBST.root);
+// balancedBST.insert(2.5);
 // balancedBST.insert(2.2);
 // balancedBST.insert(2.3);
 // balancedBST.insert(2.7);
-balancedBST.insert(2.5);
-balancedBST.insert(2.5);
+// balancedBST.insert(2.5);
+// balancedBST.insert(2.5);
 balancedBST.insert(2.3);
 balancedBST.insert(7);
 balancedBST.insert(11.5);
+balancedBST.prettyPrint(balancedBST.root);
+balancedBST.deleteItem(2);
+balancedBST.prettyPrint(balancedBST.root);
+balancedBST.deleteItem(11);
+balancedBST.deleteItem(4);
 balancedBST.prettyPrint(balancedBST.root);
