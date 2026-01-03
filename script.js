@@ -69,7 +69,7 @@ class Tree {
 
 	// Function to delete items from the tree
 	deleteItem(value, flag = 0, rootNode = this.root) {
-		// getSuccessor helps find the inorder successor for the node that we are removing, if both it's left and right nodes are occupied
+		// getSuccessor helps find the in-order successor for the node that we are removing, if both it's left and right nodes are occupied
 		function getSuccessor(curr) {
 			curr = curr.right;
 			while (curr.left !== null) curr = curr.left;
@@ -111,22 +111,43 @@ class Tree {
 		else returnValue = this.find(value, rootNode.right);
 		return returnValue;
 	}
+
+	levelOrderForEach(callback) {
+		if (callback === null || callback === undefined) {
+			throw new Error("The callback function is required!");
+		}
+
+		let rootNode = this.root;
+		let queue = [];
+
+		if (rootNode === null) {
+			console.log("The array is empty! Unable to perform this action.");
+			return;
+		} else queue.push(rootNode);
+
+		while (queue.length) {
+			try {
+				callback(queue[0]);
+				if (queue[0].left !== null) queue.push(queue[0].left);
+				if (queue[0].right !== null) queue.push(queue[0].right);
+				queue.shift();
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	}
 }
 
 const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12]);
 balancedBST.prettyPrint(balancedBST.root);
 // balancedBST.insert(2.5);
-// balancedBST.insert(2.2);
 // balancedBST.insert(2.3);
-// balancedBST.insert(2.7);
-// balancedBST.insert(2.5);
-// balancedBST.insert(2.5);
-balancedBST.insert(2.3);
-balancedBST.insert(7);
-balancedBST.insert(11.5);
-balancedBST.prettyPrint(balancedBST.root);
-balancedBST.deleteItem(2);
-balancedBST.prettyPrint(balancedBST.root);
-balancedBST.deleteItem(11);
-balancedBST.deleteItem(4);
+// balancedBST.insert(7);
+// balancedBST.insert(11.5);
+// balancedBST.prettyPrint(balancedBST.root);
+// balancedBST.deleteItem(2);
+// balancedBST.prettyPrint(balancedBST.root);
+// balancedBST.deleteItem(11);
+// balancedBST.deleteItem(4);
+balancedBST.levelOrderForEach((a) => (a.data *= 2));
 balancedBST.prettyPrint(balancedBST.root);
