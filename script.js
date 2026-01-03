@@ -94,9 +94,9 @@ class Tree {
 			if (rootNode.left === null) return rootNode.right;
 			if (rootNode.right === null) return rootNode.left;
 
-			const succ = getSuccessor(rootNode);
-			rootNode.data = succ.data;
-			rootNode.right = this.deleteItem(succ.data, 1, rootNode.right);
+			const successor = getSuccessor(rootNode);
+			rootNode.data = successor.data;
+			rootNode.right = this.deleteItem(successor.data, 1, rootNode.right);
 		}
 		return rootNode;
 	}
@@ -136,18 +136,42 @@ class Tree {
 			}
 		}
 	}
+	inOrderForEach(callback) {
+		if (callback === null || callback === undefined) {
+			throw new Error("The callback function is required!!!");
+		}
+	}
+	preOrderForEach(callback, rootNode = this.root) {
+		if (callback === null || callback === undefined) {
+			throw new Error("The callback function is required!!!");
+		}
+		if (rootNode === null) return;
+		try {
+			callback(rootNode);
+		} catch (error) {
+			console.error(error);
+		}
+		this.preOrderForEach(callback, rootNode.left);
+		this.preOrderForEach(callback, rootNode.right);
+	}
+
+	postOrderForEach(callback) {
+		if (callback === null || callback === undefined) {
+			throw new Error("The callback function is required!!!");
+		}
+	}
 }
 
 const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12]);
 balancedBST.prettyPrint(balancedBST.root);
-// balancedBST.insert(2.5);
-// balancedBST.insert(2.3);
-// balancedBST.insert(7);
-// balancedBST.insert(11.5);
-// balancedBST.prettyPrint(balancedBST.root);
-// balancedBST.deleteItem(2);
-// balancedBST.prettyPrint(balancedBST.root);
-// balancedBST.deleteItem(11);
-// balancedBST.deleteItem(4);
-balancedBST.levelOrderForEach((a) => (a.data *= 2));
+balancedBST.insert(2.5);
+balancedBST.insert(2.3);
+balancedBST.insert(7);
+balancedBST.insert(11.5);
+balancedBST.prettyPrint(balancedBST.root);
+balancedBST.deleteItem(2);
+balancedBST.prettyPrint(balancedBST.root);
+balancedBST.deleteItem(11);
+balancedBST.deleteItem(4);
+balancedBST.preOrderForEach((a) => (a.data *= 3));
 balancedBST.prettyPrint(balancedBST.root);
