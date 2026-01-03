@@ -136,10 +136,19 @@ class Tree {
 			}
 		}
 	}
-	inOrderForEach(callback) {
+	inOrderForEach(callback, rootNode = this.root) {
 		if (callback === null || callback === undefined) {
 			throw new Error("The callback function is required!!!");
 		}
+
+		if (rootNode === null) return;
+		this.inOrderForEach(callback, rootNode.left);
+		try {
+			callback(rootNode);
+		} catch (error) {
+			console.error(error);
+		}
+		this.inOrderForEach(callback, rootNode.right);
 	}
 	preOrderForEach(callback, rootNode = this.root) {
 		if (callback === null || callback === undefined) {
@@ -162,16 +171,16 @@ class Tree {
 	}
 }
 
-const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12]);
+const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 6, 7, 8, 9, 10]);
 balancedBST.prettyPrint(balancedBST.root);
-balancedBST.insert(2.5);
-balancedBST.insert(2.3);
-balancedBST.insert(7);
-balancedBST.insert(11.5);
-balancedBST.prettyPrint(balancedBST.root);
-balancedBST.deleteItem(2);
-balancedBST.prettyPrint(balancedBST.root);
-balancedBST.deleteItem(11);
-balancedBST.deleteItem(4);
-balancedBST.preOrderForEach((a) => (a.data *= 3));
+// balancedBST.insert(2.5);
+// balancedBST.insert(2.3);
+// balancedBST.insert(7);
+// balancedBST.insert(11.5);
+// balancedBST.prettyPrint(balancedBST.root);
+// balancedBST.deleteItem(2);
+// balancedBST.prettyPrint(balancedBST.root);
+// balancedBST.deleteItem(11);
+// balancedBST.deleteItem(4);
+balancedBST.inOrderForEach((a) => (a.data += 2));
 balancedBST.prettyPrint(balancedBST.root);
