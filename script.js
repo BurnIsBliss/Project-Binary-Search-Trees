@@ -190,7 +190,20 @@ class Tree {
 
 		return Math.max(lHeight, rHeight) + 1;
 	}
-	// depth(value) {}
+
+	depth(value) {
+		if (this.find(value) === 0) return null;
+
+		let height = 0;
+		let rootNode = this.root;
+		while (true) {
+			if (rootNode.data > value) rootNode = rootNode.left;
+			else if (rootNode.data < value) rootNode = rootNode.right;
+			else if (rootNode.data === value) break;
+			height += 1;
+		}
+		return height;
+	}
 }
 
 const balancedBST = new Tree([1, 2, 0, 0, 6, 7, 8]);
@@ -206,8 +219,9 @@ balancedBST.insert(3.5);
 // balancedBST.deleteItem(4);
 // balancedBST.postOrderForEach((a) => (a.data += 2));
 balancedBST.prettyPrint(balancedBST.root);
-console.log(balancedBST.height(2.77));
-console.log(balancedBST.height(0));
-console.log(balancedBST.height(2.3));
-console.log(balancedBST.height(7));
-console.log(balancedBST.height(2));
+console.log(balancedBST.depth(2.77));
+console.log(balancedBST.depth(0));
+console.log(balancedBST.depth(2.3));
+console.log(balancedBST.depth(7));
+console.log(balancedBST.depth(2));
+console.log(balancedBST.depth(3.5));
