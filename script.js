@@ -179,18 +179,35 @@ class Tree {
 			console.error(error);
 		}
 	}
+
+	// Can also be done using level order search
+	height(value, root = this.find(value)) {
+		if (root === 0) return null;
+		if (root === null) return -1;
+
+		let lHeight = this.height(value, root.left);
+		let rHeight = this.height(value, root.right);
+
+		return Math.max(lHeight, rHeight) + 1;
+	}
+	// depth(value) {}
 }
 
-const balancedBST = new Tree([1, 2, 4, 5, 11, 0, 0, 12, 6, 7, 8, 9, 10]);
-balancedBST.prettyPrint(balancedBST.root);
+const balancedBST = new Tree([1, 2, 0, 0, 6, 7, 8]);
+// balancedBST.prettyPrint(balancedBST.root);
 // balancedBST.insert(2.5);
-// balancedBST.insert(2.3);
-// balancedBST.insert(7);
-// balancedBST.insert(11.5);
+balancedBST.insert(2.3);
+balancedBST.insert(3);
+balancedBST.insert(3.5);
 // balancedBST.prettyPrint(balancedBST.root);
 // balancedBST.deleteItem(2);
 // balancedBST.prettyPrint(balancedBST.root);
 // balancedBST.deleteItem(11);
 // balancedBST.deleteItem(4);
-balancedBST.postOrderForEach((a) => (a.data += 2));
+// balancedBST.postOrderForEach((a) => (a.data += 2));
 balancedBST.prettyPrint(balancedBST.root);
+console.log(balancedBST.height(2.77));
+console.log(balancedBST.height(0));
+console.log(balancedBST.height(2.3));
+console.log(balancedBST.height(7));
+console.log(balancedBST.height(2));
