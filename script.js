@@ -219,7 +219,19 @@ class Tree {
 		return false;
 	}
 
-	rebalance() {}
+	rebalance() {
+		if (this.isBalanced()) return true;
+		let array = [];
+		function callback(a) {
+			array.push(a.data);
+		}
+		this.preOrderForEach(callback);
+		this.root = this.buildTree(
+			array.sort((a, b) => a - b),
+			0,
+			array.length - 1
+		);
+	}
 }
 
 const balancedBST = new Tree([1, 2, 0, 0, 6, 7, 8]);
@@ -235,4 +247,7 @@ balancedBST.deleteItem(6);
 // balancedBST.deleteItem(2.3);
 // balancedBST.postOrderForEach((a) => (a.data += 2));
 balancedBST.prettyPrint(balancedBST.root);
-console.log(balancedBST.isBalanced());
+// console.log(balancedBST.isBalanced());
+balancedBST.rebalance();
+balancedBST.prettyPrint(balancedBST.root);
+console.log(balancedBST.rebalance());
