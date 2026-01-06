@@ -104,7 +104,7 @@ class Tree {
 	// This function checks for the provided value within the tree
 	find(value, rootNode = this.root) {
 		let returnValue;
-		if (rootNode === null) return 0;
+		if (rootNode === null || value === null) return 0;
 		else if (value == rootNode.data) return rootNode;
 		else if (value < rootNode.data)
 			returnValue = this.find(value, rootNode.left);
@@ -204,6 +204,22 @@ class Tree {
 		}
 		return height;
 	}
+
+	isBalanced(rootNode = this.root) {
+		if (rootNode === null) return true;
+		const leftValue = rootNode.left === null ? null : rootNode.left.data;
+		const rightValue = rootNode.right === null ? null : rootNode.right.data;
+		const diff = Math.abs(this.height(leftValue) - this.height(rightValue));
+		if (
+			diff <= 1 &&
+			this.isBalanced(rootNode.left) === true &&
+			this.isBalanced(rootNode.right) === true
+		)
+			return true;
+		return false;
+	}
+
+	rebalance() {}
 }
 
 const balancedBST = new Tree([1, 2, 0, 0, 6, 7, 8]);
@@ -215,13 +231,8 @@ balancedBST.insert(3.5);
 // balancedBST.prettyPrint(balancedBST.root);
 // balancedBST.deleteItem(2);
 // balancedBST.prettyPrint(balancedBST.root);
-// balancedBST.deleteItem(11);
-// balancedBST.deleteItem(4);
+balancedBST.deleteItem(6);
+// balancedBST.deleteItem(2.3);
 // balancedBST.postOrderForEach((a) => (a.data += 2));
 balancedBST.prettyPrint(balancedBST.root);
-console.log(balancedBST.depth(2.77));
-console.log(balancedBST.depth(0));
-console.log(balancedBST.depth(2.3));
-console.log(balancedBST.depth(7));
-console.log(balancedBST.depth(2));
-console.log(balancedBST.depth(3.5));
+console.log(balancedBST.isBalanced());
