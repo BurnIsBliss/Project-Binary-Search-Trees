@@ -234,20 +234,4 @@ class Tree {
 	}
 }
 
-const balancedBST = new Tree([1, 2, 0, 0, 6, 7, 8]);
-// balancedBST.prettyPrint(balancedBST.root);
-// balancedBST.insert(2.5);
-balancedBST.insert(2.3);
-balancedBST.insert(3);
-balancedBST.insert(3.5);
-// balancedBST.prettyPrint(balancedBST.root);
-// balancedBST.deleteItem(2);
-// balancedBST.prettyPrint(balancedBST.root);
-balancedBST.deleteItem(6);
-// balancedBST.deleteItem(2.3);
-// balancedBST.postOrderForEach((a) => (a.data += 2));
-balancedBST.prettyPrint(balancedBST.root);
-// console.log(balancedBST.isBalanced());
-balancedBST.rebalance();
-balancedBST.prettyPrint(balancedBST.root);
-console.log(balancedBST.rebalance());
+export { Tree };
